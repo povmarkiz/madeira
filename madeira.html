@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мадейра — @pov.markiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #F5EFE3;
+      --bg2:       #EDE6D8;
+      --bg3:       #E3DACE;
+      --surface:   #FDFAF5;
+      --border:    rgba(44,74,62,0.1);
+      --accent:    #3D6B5A;
+      --accent-lt: #7A9E8E;
+      --text:      #1A2820;
+      --text-dim:  rgba(26,40,32,0.58);
+      --text-muted:rgba(26,40,32,0.38);
+      --ff-serif:  'Cormorant Garamond', Georgia, serif;
+      --ff-sans:   'Manrope', sans-serif;
+      --max:       720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 62px;
+      background: rgba(245,239,227,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--ff-serif);
+      font-size: 17px;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 36px; }
+    .nav-links a {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-dim); transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-btn {
+      background: var(--accent);
+      color: #F5EFE3 !important;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 10px 22px; border-radius: 40px;
+      transition: background 0.2s;
+    }
+    .nav-btn:hover { background: #2C4A3E; color: #F5EFE3 !important; }
+    .burger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center;
+      width: 40px; height: 40px; gap: 6px; cursor: pointer;
+      background: none; border: none; padding: 0;
+    }
+    .burger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--text); transition: all 0.25s;
+    }
+
+    /* ─── MOBILE MENU ─── */
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: var(--bg);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 32px; padding: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .mobile-menu .btn { margin-top: 12px; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      height: 100svh; min-height: 600px;
+      display: flex; align-items: center;
+      padding-top: 62px; overflow: hidden;
+    }
+    .hero-img {
+      position: absolute; inset: 0;
+      background-image: url('photos/hero.jpg');background-size: cover; background-position: center 40%;
+      filter: brightness(0.52) saturate(1.1);
+    }
+    /* placeholder gradient if no photo */
+    .hero-img-placeholder {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        160deg,
+        #0d1f18 0%,
+        #1e3d2f 30%,
+        #2c5240 55%,
+        #1a3028 80%,
+        #0c1a13 100%
+      );
+    }
+    .hero-mist {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 120% 60% at 30% 60%, rgba(180,210,195,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 40% at 70% 40%, rgba(140,190,160,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8,18,12,0.82) 0%,
+        rgba(8,18,12,0.18) 45%,
+        transparent 70%
+      );
+    }
+    .hero-inner {
+      position: relative; width: 100%;
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 48px; text-align: center;
+    }
+    .hero-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: var(--ff-sans);
+      font-size: clamp(48px, 8vw, 104px);
+      font-weight: 300; line-height: 0.92;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: rgba(180,220,200,0.85);
+    }
+    .hero-subtitle {
+      font-family: var(--ff-serif);
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 300; font-style: italic;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 36px;
+    }
+    .hero-details {
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px; font-size: 13px; font-weight: 500;
+      color: rgba(255,255,255,0.65); letter-spacing: 0.06em;
+      margin-bottom: 40px;
+    }
+    .hero-sep { opacity: 0.35; }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.35);
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--bg) !important;
+      font-family: var(--ff-sans);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 18px 48px; border-radius: 40px;
+      box-shadow: 0 4px 24px rgba(44,74,62,0.25);
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn:hover { background: #2C4A3E; }
+    .btn-outline {
+      display: inline-block;
+      border: 1.5px solid var(--accent);
+      color: var(--accent) !important;
+      font-family: var(--ff-sans);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 16px 44px; border-radius: 40px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--accent); color: var(--bg) !important; }
+
+    /* ─── INTRO ─── */
+    #intro {
+      padding: 110px 20px 90px;
+      text-align: center;
+    }
+    .intro-eyebrow {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 30px;
+    }
+    .intro-body {
+      max-width: var(--max); margin: 0 auto;
+      font-family: var(--ff-serif);
+      font-size: clamp(21px, 2.8vw, 27px);
+      font-weight: 300; line-height: 1.65;
+      color: var(--text-dim);
+    }
+    .intro-body strong { color: var(--text); font-weight: 500; }
+    .intro-body em { font-style: italic; color: var(--accent); }
+    .intro-ratings {
+      display: flex; gap: 52px; justify-content: center;
+      margin-top: 52px; padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .rating-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 6px;
+    }
+    .stars { color: var(--accent); font-size: 15px; letter-spacing: 2px; }
+
+    /* ─── FULL IMG PLACEHOLDER ─── */
+    .full-photo {
+      width: 100%; aspect-ratio: 16/7;
+      overflow: hidden; position: relative;
+    }
+    .full-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .photo-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(
+        135deg,
+        #1a3828 0%, #2e5a44 25%,
+        #1e4535 50%, #354f3a 75%,
+        #243d30 100%
+      );
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-placeholder-label {
+      font-family: var(--ff-serif);
+      font-size: 14px; font-style: italic;
+      color: rgba(200,230,215,0.4);
+      letter-spacing: 0.08em;
+    }
+    /* single inline day photo */
+    .day-photo-wrap {
+      margin-top: 20px; overflow: hidden;
+      border-radius: 2px; max-width: 520px;
+    }
+    .day-photo-wrap .photo-placeholder {
+      aspect-ratio: 16/9;
+    }
+
+    /* ─── SECTION WRAP ─── */
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 96px 20px;
+    }
+    .sec-eye {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 20px;
+    }
+    .sec-title {
+      font-family: var(--ff-serif);
+      font-size: clamp(38px, 5.5vw, 62px);
+      font-weight: 300; line-height: 1.08;
+      letter-spacing: -0.005em; margin-bottom: 56px;
+    }
+
+    /* ─── ROUTE DAYS ─── */
+    .day {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 0 36px;
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      align-items: start;
+    }
+    .day:last-child { border-bottom: 1px solid var(--border); }
+    .day-n {
+      font-family: var(--ff-serif);
+      font-size: 52px; font-weight: 300;
+      color: rgba(26,40,32,0.1);
+      line-height: 1; padding-top: 4px;
+    }
+    .day-date {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .day-h {
+      font-family: var(--ff-serif);
+      font-size: 28px; font-weight: 400;
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .day-p {
+      font-size: 15px; color: var(--text-dim);
+      line-height: 1.75; max-width: 520px;
+    }
+    .day-p strong { color: var(--text); font-weight: 500; }
+
+    /* ─── VERTICAL CAROUSEL ─── */
+    .vcarousel-wrap {
+      background: var(--bg2);
+      padding: 64px 40px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .vcarousel-stage {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+    }
+    .vcarousel-track {
+      display: flex;
+      transition: transform 0.42s ease;
+    }
+    .vcarousel-slide {
+      flex: 0 0 100%;
+    }
+    .vcarousel-slide img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+      border-radius: 2px;
+    }
+    .vcarousel-slide .photo-placeholder {
+      aspect-ratio: 3/4;
+      border-radius: 2px;
+    }
+    .vcarousel-counter {
+      position: absolute;
+      bottom: 14px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px; letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      background: rgba(0,0,0,0.25);
+      padding: 4px 12px; border-radius: 20px;
+      pointer-events: none;
+    }
+    .vcarousel-btn {
+      background: none;
+      border: 1.5px solid var(--border);
+      width: 44px; height: 44px;
+      flex-shrink: 0;
+      border-radius: 50%; font-size: 16px;
+      cursor: pointer; color: var(--text-dim);
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .vcarousel-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 680px) {
+      .vcarousel-wrap { padding: 48px 16px; gap: 12px; }
+    }
+
+    /* ─── VILLA CAROUSEL ─── */
+    .villa-carousel-wrap {
+      margin-bottom: 3px;
+    }
+    .villa-main {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 2px 2px 0 0;
+    }
+    .villa-slides {
+      display: flex;
+      transition: transform 0.42s ease;
+    }
+    .villa-slide {
+      flex: 0 0 100%;
+      position: relative;
+    }
+    .villa-slide .photo-placeholder {
+      aspect-ratio: 16/7;
+      transition: transform 0.3s ease;
+    }
+    .villa-slide img {
+      width: 100%; aspect-ratio: 16/7;
+      object-fit: cover; display: block;
+    }
+    .villa-main:hover .villa-slide .photo-placeholder,
+    .villa-main:hover .villa-slide img {
+      transform: scale(1.02);
+    }
+    .villa-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.85);
+      border: none; width: 40px; height: 40px;
+      border-radius: 50%; font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      transition: background 0.2s; z-index: 10;
+    }
+    .villa-btn:hover { background: #fff; }
+    .villa-prev { left: 16px; }
+    .villa-next { right: 16px; }
+    .villa-expand-hint {
+      position: absolute; bottom: 12px; right: 14px;
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      pointer-events: none;
+    }
+    /* Thumbnails */
+    .villa-thumbs {
+      display: flex; gap: 3px;
+      background: var(--bg3);
+    }
+    .villa-thumb {
+      flex: 1; overflow: hidden; cursor: pointer;
+      opacity: 0.55; transition: opacity 0.2s;
+    }
+    .villa-thumb.active { opacity: 1; }
+    .villa-thumb:hover { opacity: 0.85; }
+    .villa-thumb .photo-placeholder { border-radius: 0; }
+    .villa-thumb img {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover; display: block;
+    }
+
+    /* Villa lightbox */
+    .villa-lb {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(8,18,12,0.95);
+      align-items: center; justify-content: center;
+    }
+    .villa-lb.open { display: flex; }
+    .villa-lb-img-wrap {
+      max-width: 90vw; max-height: 85vh;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+    .villa-lb-img-wrap img {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+    .villa-lb-img-wrap .photo-placeholder {
+      width: 100%; height: 100%;
+    }
+    .villa-lb-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none;
+      color: rgba(255,255,255,0.7); font-size: 32px;
+      cursor: pointer; line-height: 1;
+      transition: color 0.2s;
+    }
+    .villa-lb-close:hover { color: #fff; }
+    .villa-lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; width: 48px; height: 48px;
+      border-radius: 50%; font-size: 18px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; z-index: 10;
+    }
+    .villa-lb-nav:hover { background: rgba(255,255,255,0.22); }
+    .villa-lb-prev { left: 24px; }
+    .villa-lb-next { right: 24px; }
+    .villa-lb-counter {
+      position: absolute; bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ─── FORMAT CARDS ─── */
+    .fmt-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 56px;
+    }
+    .fmt-card { background: var(--surface); }
+    .fmt-card-body { padding: 32px 36px; }
+    .fmt-icon { font-size: 22px; margin-bottom: 14px; }
+    .fmt-title {
+      font-family: var(--ff-serif);
+      font-size: 22px; font-weight: 400; margin-bottom: 10px;
+    }
+    .fmt-text { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+    /* ─── ORGANIZER ─── */
+    #organizer {
+      padding: 96px 20px;
+      background: var(--bg2);
+      text-align: center;
+    }
+    .organizer-inner { max-width: 540px; margin: 0 auto; }
+    .org-photo {
+      width: 140px; height: 140px;
+      border-radius: 50%; overflow: hidden;
+      margin: 40px auto 28px;
+      border: 3px solid var(--bg3);
+    }
+    .org-photo .photo-placeholder { aspect-ratio: 1/1; height: 100%; border-radius: 50%; }
+    .org-name {
+      font-family: var(--ff-serif);
+      font-size: 34px; font-weight: 400; margin-bottom: 6px;
+    }
+    .org-role {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 24px;
+    }
+    .org-text {
+      font-size: 14px; color: var(--text-dim);
+      line-height: 1.7; max-width: 480px; margin: 0 auto;
+    }
+    .org-text a { color: var(--accent); }
+
+    /* ─── WHY ─── */
+    .why-list { list-style: none; }
+    .why-li {
+      display: flex; gap: 20px;
+      padding: 22px 0; border-top: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .why-li:last-child { border-bottom: 1px solid var(--border); }
+    .why-dot {
+      width: 5px; height: 5px;
+      background: var(--accent); border-radius: 50%;
+      flex-shrink: 0; margin-top: 10px;
+    }
+    .why-t { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
+    .why-t strong { color: var(--text); font-weight: 500; }
+
+    /* ─── PRICE ─── */
+    .price-box {
+      border: 1px solid var(--border);
+      padding: 60px; text-align: center;
+      background: var(--surface);
+    }
+    .price-num {
+      font-family: var(--ff-serif);
+      font-size: 96px; font-weight: 300;
+      line-height: 1; color: var(--text);
+    }
+    .price-num sup { font-size: 44px; vertical-align: 0.25em; }
+    .price-note { font-size: 13px; color: var(--text-muted); margin-top: 10px; }
+    .price-meta {
+      font-size: 11px; color: var(--text-muted);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .inc-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; margin-top: 48px;
+    }
+    .inc-h {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 24px;
+    }
+    .inc-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 11px;
+    }
+    .inc-list li {
+      font-size: 15px; color: var(--text-dim);
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .inc-list li::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--accent); border-radius: 50%;
+      flex-shrink: 0; margin-top: 9px;
+    }
+    .not-inc li::before {
+      background: transparent;
+      border: 1px solid rgba(26,40,32,0.2);
+    }
+    .pay-note {
+      font-size: 14px; color: var(--text-dim);
+      line-height: 1.75; padding: 28px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    .pay-note strong { color: var(--text); font-weight: 500; }
+
+    /* ─── STEPS / BOOKING ─── */
+    .steps { list-style: none; margin-bottom: 52px; }
+    .step {
+      display: grid; grid-template-columns: 44px 1fr;
+      gap: 0 24px; padding: 26px 0;
+      border-top: 1px solid var(--border);
+      align-items: center;
+    }
+    .step:last-child { border-bottom: 1px solid var(--border); }
+    .step-n {
+      font-family: var(--ff-serif);
+      font-size: 36px; font-weight: 300;
+      color: rgba(26,40,32,0.13); line-height: 1;
+    }
+    .step-t { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
+    .step-t strong { color: var(--text); font-weight: 500; }
+
+    /* ─── PHOTO COLLAGE ─── */
+    .collage {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+    .collage-item {
+      overflow: hidden; cursor: pointer;
+      aspect-ratio: 3/4;
+    }
+    .collage-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.4s ease;
+    }
+    .collage-item:hover img { transform: scale(1.03); }
+    @media (max-width: 680px) {
+      .collage { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 52px 20px; text-align: center;
+    }
+    .footer-logo {
+      font-family: var(--ff-serif);
+      font-size: 30px; font-weight: 300;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .footer-meta {
+      font-size: 12px; color: var(--text-muted); letter-spacing: 0.07em;
+    }
+    .footer-meta a { color: var(--text-dim); }
+    .footer-meta a:hover { color: var(--accent); }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 680px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .hero-inner { padding: 0 20px; }
+      .hero-title { font-size: clamp(48px, 14vw, 80px); }
+      .hero-details { flex-wrap: wrap; gap: 8px; }
+      .day { grid-template-columns: 44px 1fr; gap: 0 18px; }
+      .day-n { font-size: 36px; }
+      .fmt-grid { grid-template-columns: 1fr; }
+      .inc-grid { grid-template-columns: 1fr; gap: 40px; }
+      .price-box { padding: 40px 24px; }
+      .price-num { font-size: 72px; }
+      .price-num sup { font-size: 32px; }
+      .intro-ratings { flex-wrap: wrap; gap: 28px; }
+      .collage { grid-template-columns: 1fr 1fr; }
+      .collage-item-tall { grid-row: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">pov.markiz</div>
+  <div class="nav-links">
+    <a href="#route">Маршрут</a>
+    <a href="#format">Вилла</a>
+    <a href="#organizer">Организатор</a>
+    <a href="#price">Стоимость</a>
+    <a href="#book" class="nav-btn">Записаться</a>
+  </div>
+  <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#route" onclick="toggleMenu()">Маршрут</a>
+  <a href="#format" onclick="toggleMenu()">Вилла</a>
+  <a href="#organizer" onclick="toggleMenu()">Организатор</a>
+  <a href="#price" onclick="toggleMenu()">Стоимость</a>
+  <a href="#book" class="btn" onclick="toggleMenu()">Записаться</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-img"></div>
+  <div class="hero-mist"></div>
+  <div class="hero-grad"></div>
+  <div class="hero-inner">
+    <p class="hero-label">Авторский тур · 17–24 октября · до 8 человек</p>
+    <h1 class="hero-title">Мадейра</h1>
+    <p class="hero-subtitle">Остров на краю Атлантики</p>
+    <div class="hero-details">
+      <span>17–24 октября</span>
+      <span class="hero-sep">·</span>
+      <span>8 дней</span>
+      <span class="hero-sep">·</span>
+      <span>до 8 человек</span>
+      <span class="hero-sep">·</span>
+      <span>1 700 €</span>
+    </div>
+    <a class="btn" href="#book">Записаться</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Листать</span>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section id="intro">
+  <p class="intro-eyebrow">О туре</p>
+  <p class="intro-body">
+    Утренние туманы в сказочных лесах, дневные треки между облаков,
+    вечерние ужины на вилле, океан, фруктовые рынки, водопады, бесконечные смотровые,
+    Атлантика — и <strong>неделя, которая запомнится на годы</strong>.
+  </p>
+  <div class="intro-ratings">
+    <div>
+      <p class="rating-label">Сложность</p>
+      <div class="stars">★★★☆☆</div>
+    </div>
+    <div>
+      <p class="rating-label">Комфорт</p>
+      <div class="stars">★★★★☆</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- VERTICAL CAROUSEL -->
+<div class="vcarousel-wrap">
+  <button class="vcarousel-btn vcarousel-prev" onclick="vcarouselMove(-1)" aria-label="Назад">&#8592;</button>
+  <div class="vcarousel-stage">
+    <div class="vcarousel-track" id="vcarouselTrack">
+      <div class="vcarousel-slide"><img src="photos/carousel-1.jpg" alt="Мадейра" loading="lazy" /></div>
+      <div class="vcarousel-slide"><img src="photos/carousel-2.jpg" alt="Мадейра" loading="lazy" /></div>
+      <div class="vcarousel-slide"><img src="photos/carousel-3.jpg" alt="Мадейра" loading="lazy" /></div>
+      <div class="vcarousel-slide"><img src="photos/carousel-4.jpg" alt="Мадейра" loading="lazy" /></div>
+      <div class="vcarousel-slide"><img src="photos/carousel-5.jpg" alt="Мадейра" loading="lazy" /></div>
+      <div class="vcarousel-slide"><img src="photos/carousel-6.jpg" alt="Мадейра" loading="lazy" /></div>
+      <div class="vcarousel-slide"><img src="photos/carousel-7.jpg" alt="Мадейра" loading="lazy" /></div>
+      <div class="vcarousel-slide"><img src="photos/carousel-8.jpg" alt="Мадейра" loading="lazy" /></div>
+    </div>
+    <div class="vcarousel-counter" id="vcarouselCounter">1 / 8</div>
+  </div>
+  <button class="vcarousel-btn vcarousel-next" onclick="vcarouselMove(1)" aria-label="Вперёд">&#8594;</button>
+</div>
+
+
+<section id="route">
+  <div class="wrap">
+    <p class="sec-eye">Маршрут</p>
+    <h2 class="sec-title">8 дней<br>на острове</h2>
+
+    <div class="day">
+      <div class="day-n">1</div>
+      <div>
+        <p class="day-date">17 октября — Прилёт</p>
+        <h3 class="day-h">Первый вечер</h3>
+        <p class="day-p">Тёплый атлантический воздух, вилла с видом, знакомство за ужином. Ощущение нового острова и предвкушения на всю неделю</p>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-n">2</div>
+      <div>
+        <p class="day-date">18 октября — Фуншал</p>
+        <h3 class="day-h">Город над городом</h3>
+        <p class="day-p">Канатная дорога над крышами, Jardim Botânico с невероятными видами на бухту. Спускаемся на знаменитых плетёных «санях» — это надо просто попробовать. Вечером — старый город, рынок Мercado dos Lavradores, фрукты и ужин в самом вкусном ресторане города</p>
+        <div class="day-photo-wrap">
+          <!-- <img src="photos/day-funchal.jpg" alt="Фуншал" /> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-n">3</div>
+      <div>
+        <p class="day-date">19 октября — Север острова</p>
+        <h3 class="day-h">Лес, который помнит динозавров</h3>
+        <p class="day-p">Древний лес Fanal, которому 20 миллионов лет. Туман между мшистыми деревьями, тишина и ощущение другого времени. Дальше — деревня Seixal и природные лавовые бассейны прямо у океана.</p>
+        <div class="day-photo-wrap">
+          <!-- <img src="photos/day-fanal.jpg" alt="Лес Фанал" /> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-n">4</div>
+      <div>
+        <p class="day-date">20 октября — Левады</p>
+        <h3 class="day-h">Тропа сквозь облака</h3>
+        <p class="day-p">Levada do Caldeirão Verde — узкая тропа вдоль старинного акведука, сквозь туннели в скале, к водопаду в самом сердце острова. Вокруг — стены зелени и постоянный шум воды.</p>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-n">5</div>
+      <div>
+        <p class="day-date">21 октября — Горы</p>
+        <h3 class="day-h">Сердце острова</h3>
+        <p class="day-p">Pico do Arieiro → Pico Ruivo — главный хайк Мадейры. Ради него сюда едут отдельно. 1818 метров, тропа по хребту между двумя вершинами, облака внизу — и ощущение, что ты идёшь по крыше мира</p>
+        <div class="day-photo-wrap">
+          <!-- <img src="photos/day-sao-lourenco.jpg" alt="São Lourenço" /> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-n">6</div>
+      <div>
+        <p class="day-date">22 октября — Восток</p>
+        <h3 class="day-h">Красные скалы и ветер</h3>
+        <p class="day-p">Мыс São Lourenço — самая восточная точка острова. Охровые и красные скалы над синей водой, ветер и горизонт во все стороны. Один из самых красивых хайков на острове — и совсем несложный. По желанию — <strong>конная прогулка по зелёным холмам над океаном</strong></p>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-n">7</div>
+      <div>
+        <p class="day-date">23 октября — Киты и запад</p>
+        <h3 class="day-h">Киты, скалы и рыбацкая деревня</h3>
+        <p class="day-p">Берем лодку и отправляемся навстречу китам и дельфинам. В октябре здесь регулярно встречают китов и дельфинов. После — лавовые ванны Porto Moniz, скалы Ribeira da Janela. Вечером — Câmara de Lobos, маленькая рыбацкая деревня, которую когда-то рисовал Черчилль, и Cabo Girão — один из самых высоких морских утёсов в мире</p>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-n">8</div>
+      <div>
+        <p class="day-date">24 октября — Вылет</p>
+        <h3 class="day-h">Финал</h3>
+        <p class="day-p">Последнее утро, кофе с видом, дорога домой с полными картами памяти и голова, полная воспоминаний.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PHOTO COLLAGE -->
+<div class="collage">
+  <div class="collage-item">
+    <img src="photos/col-1.jpg" alt="Мадейра" />
+  </div>
+  <div class="collage-item">
+    <img src="photos/col-2.jpg" alt="Мадейра" />
+  </div>
+  <div class="collage-item">
+    <img src="photos/col-3.jpg" alt="Мадейра" />
+  </div>
+  <div class="collage-item">
+    <img src="photos/col-4.jpg" alt="Мадейра" />
+  </div>
+  <div class="collage-item">
+    <img src="photos/col-5.jpg" alt="Мадейра" />
+  </div>
+  <div class="collage-item">
+    <img src="photos/col-6.jpg" alt="Мадейра" />
+  </div>
+</div>
+
+<!-- FORMAT -->
+<section id="format">
+  <div class="wrap">
+    <p class="sec-eye">Формат жизни</p>
+    <h2 class="sec-title">Как мы живём<br>на острове</h2>
+
+    <!-- Villa carousel -->
+    <div class="villa-carousel-wrap">
+      <!-- Main slide -->
+      <div class="villa-main" id="villaMain">
+        <div class="villa-slides" id="villaTrack">
+          <div class="villa-slide" onclick="villaLightbox(0)">
+            <img src="photos/villa-1.avif" alt="Вилла" />
+          </div>
+          <div class="villa-slide" onclick="villaLightbox(1)">
+            <img src="photos/villa-2.avif" alt="Вилла" />
+          </div>
+          <div class="villa-slide" onclick="villaLightbox(2)">
+            <img src="photos/villa-3.avif" alt="Вилла" />
+          </div>
+          <div class="villa-slide" onclick="villaLightbox(3)">
+            <img src="photos/villa-4.avif" alt="Вилла" />
+          </div>
+          <div class="villa-slide" onclick="villaLightbox(4)">
+            <img src="photos/villa-5.avif" alt="Вилла" />
+          </div>
+                  <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-6.avif" alt="Вилла" />
+        </div>
+                <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-7.avif" alt="Вилла" />
+        </div>
+                <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-8.avif" alt="Вилла" />
+        </div>
+                <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-9.avif" alt="Вилла" />
+        </div>
+        </div>
+        <button class="villa-btn villa-prev" onclick="villaMoveBy(-1)" aria-label="Назад">&#8592;</button>
+        <button class="villa-btn villa-next" onclick="villaMoveBy(1)" aria-label="Вперёд">&#8594;</button>
+        <div class="villa-expand-hint">нажмите для просмотра</div>
+      </div>
+      <!-- Thumbnails -->
+      <div class="villa-thumbs" id="villaThumbs">
+        <div class="villa-thumb active" onclick="villaGoTo(0)">
+          <img src="photos/villa-1.avif" alt="Вилла" />
+        </div>
+        <div class="villa-thumb" onclick="villaGoTo(1)">
+          <img src="photos/villa-2.avif" alt="Вилла" />
+        </div>
+        <div class="villa-thumb" onclick="villaGoTo(2)">
+          <img src="photos/villa-3.avif" alt="Вилла" />
+        </div>
+        <div class="villa-thumb" onclick="villaGoTo(3)">
+          <img src="photos/villa-4.avif" alt="Вилла" />
+        </div>
+        <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-5.avif" alt="Вилла" />
+        </div>
+                <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-6.avif" alt="Вилла" />
+        </div>
+                <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-7.avif" alt="Вилла" />
+        </div>
+                <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-8.avif" alt="Вилла" />
+        </div>
+                <div class="villa-thumb" onclick="villaGoTo(4)">
+          <img src="photos/villa-9.avif" alt="Вилла" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Villa lightbox -->
+    <div class="villa-lb" id="villaLb" onclick="villaLbClose(event)">
+      <button class="villa-lb-close" onclick="villaLbClose({target:document.getElementById('villaLb')})">×</button>
+      <button class="villa-lb-nav villa-lb-prev" onclick="villaLbMove(-1)">&#8592;</button>
+      <div class="villa-lb-img-wrap" id="villaLbImg">
+        <img id="villaLbImgEl" src="photos/villa-1.avif" alt="Вилла" />
+      </div>
+      <button class="villa-lb-nav villa-lb-next" onclick="villaLbMove(1)">&#8594;</button>
+      <div class="villa-lb-counter" id="villaLbCounter">1 / 5</div>
+    </div>
+
+    <div class="fmt-grid">
+      <div class="fmt-card">
+        <div class="fmt-card-body">
+          <div class="fmt-icon">🏡</div>
+          <div class="fmt-title">Вилла</div>
+          <p class="fmt-text">Комфортная вилла с общими зонами и шикарным видом. По два человека в комнате (по запросу заселение по-одному).</p>
+        </div>
+      </div>
+      <div class="fmt-card">
+        <div class="fmt-card-body">
+          <div class="fmt-icon">🚗</div>
+          <div class="fmt-title">Транспорт и маршрут</div>
+          <p class="fmt-text">1 машина на группу. Удобная логистика и полная свобода передвижения по острову. Маршрут — ориентировочный. Мы живём по погоде и настроению. Именно так, по-нашему, и должна выглядеть настоящая экспедиция — не по рельсам, а навстречу неизвестному.</p>
+        </div>
+      </div>
+      <div class="fmt-card">
+        <div class="fmt-card-body">
+          <div class="fmt-icon">🍍</div>
+          <div class="fmt-title">Питание</div>
+          <p class="fmt-text">Завтраки и часть обедов готовим сами. Остальное — рестораны: морепродукты, свежие фрукты, местная кухня.</p>
+        </div>
+      </div>
+      <div class="fmt-card">
+        <div class="fmt-card-body">
+          <div class="fmt-icon">📸</div>
+          <div class="fmt-title">Контент</div>
+          <p class="fmt-text">Фото и видео с поездки. Возвращаетесь домой с красивыми материалами, которыми хочется делиться.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="organizer">
+  <p class="sec-eye" style="text-align:center;">Организатор</p>
+  <div class="organizer-inner">
+    <div class="org-photo">
+      <img src="photos/mark.jpg" alt="Марк" />
+    </div>
+    <div class="org-name">Марк</div>
+    <div class="org-role">Организатор · @pov.markiz</div>
+    <p class="org-text">
+      Сертифицированный яхтенный капитан и автор блога <a href="https://www.instagram.com/pov.markiz" target="_blank">@pov.markiz</a>.
+      Уже несколько лет вожу небольшие группы в путешествия — по Турции, Канарам, Мадейре, Японии, Африке и дальше.
+      Для меня это не работа, а способ показать людям мир так, как я вижу его сам.
+    </p>
+  </div>
+</section>
+
+<!-- WHY MADEIRA -->
+<section id="why">
+  <div class="wrap">
+    <p class="sec-eye">Почему Мадейра</p>
+    <h2 class="sec-title">Остров,<br>который не отпускает</h2>
+
+    <ul class="why-list">
+      <li class="why-li"><div class="why-dot"></div><span class="why-t"><strong>Леса как в фильмах</strong> — от туманных лаурисильв до тропических садов</span></li>
+      <li class="why-li"><div class="why-dot"></div><span class="why-t"><strong>Природные бассейны у океана</strong> — лавовые ванны прямо у воды</span></li>
+      <li class="why-li"><div class="why-dot"></div><span class="why-t"><strong>Бесконечные треки и смотровые</strong> — пейзажи, которые меняются каждый час</span></li>
+      <li class="why-li"><div class="why-dot"></div><span class="why-t"><strong>Октябрь — идеальный месяц</strong> для наблюдения китов и дельфинов с лодки</span></li>
+      <li class="why-li"><div class="why-dot"></div><span class="why-t"><strong>Фрукты, рынок, кухня, морепродукты</strong> — гастрономика острова это отдельная история</span></li>
+      <li class="why-li"><div class="why-dot"></div><span class="why-t"><strong>Группа до 8 человек</strong> — не тур, а поездка с хорошей компанией</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section id="price" style="background: var(--bg2);">
+  <div class="wrap">
+    <p class="sec-eye">Стоимость</p>
+    <h2 class="sec-title">Цена тура</h2>
+
+    <div class="price-box" style="margin-bottom: 56px;">
+      <div class="price-num"><sup>€</sup>1 700</div>
+      <p class="price-note">за участника · без перелёта</p>
+      <p class="price-meta">17–24 октября · 8 дней · до 8 мест</p>
+    </div>
+
+    <div class="inc-grid">
+      <div>
+        <p class="inc-h">Включено в стоимость</p>
+        <ul class="inc-list">
+          <li>Организация маршрута</li>
+          <li>Проживание на острове</li>
+          <li>Аренда авто</li>
+          <li>Поддержка по подготовке: билеты, вещи, страховка</li>
+          <li>Фото и видео контент с поездки</li>
+        </ul>
+      </div>
+      <div>
+        <p class="inc-h">Не включено</p>
+        <ul class="inc-list not-inc">
+          <li>Авиабилеты до Мадейры</li>
+          <li>Whale watching и конные прогулки</li>
+          <li>Страховка</li>
+          <li>Виза</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pay-note">
+      <strong>Оплата:</strong> предоплата 50% бронирует место. Остаток — за четыре недели до поездки.<br>
+      <span style="font-size:13px; color:var(--text-muted);">Отмена: стоимость возвращается, если найдём замену.</span>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="book">
+  <div class="wrap" style="text-align:center;">
+    <p class="sec-eye">Как попасть</p>
+    <h2 class="sec-title">Напиши мне<br>в Telegram</h2>
+
+    <ul class="steps" style="text-align:left;">
+      <li class="step">
+        <div class="step-n">01</div>
+        <div class="step-t"><strong>Напиши Марку в Telegram</strong> — расскажу всё, что нужно знать перед поездкой</div>
+      </li>
+      <li class="step">
+        <div class="step-n">02</div>
+        <div class="step-t">Обсудим детали, отвечу на все вопросы</div>
+      </li>
+      <li class="step">
+        <div class="step-n">03</div>
+        <div class="step-t"><strong>Звонок-знакомство</strong> — перед бронированием проводим небольшую встречу. Важно понять, кто едет рядом — неделя в группе это про команду и атмосферу</div>
+      </li>
+      <li class="step">
+        <div class="step-n">04</div>
+        <div class="step-t">Место закрепляется после предоплаты</div>
+      </li>
+    </ul>
+
+    <a class="btn" href="https://t.me/xfufx" target="_blank">Написать в Telegram</a>
+    <br>
+    <span style="display:block; margin-top:20px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">
+      до 8 мест · 17–24 октября · Мадейра
+    </span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Мадейра</div>
+  <p class="footer-meta">
+    <a href="https://www.instagram.com/pov.markiz" target="_blank">@pov.markiz</a> · Авторский тур · Октябрь 2026 · Португалия
+  </p>
+</footer>
+
+<script>
+  // Villa carousel
+  let villaCur = 0;
+  const villaTrack = document.getElementById('villaTrack');
+  const villaSlides = villaTrack ? villaTrack.querySelectorAll('.villa-slide') : [];
+  const villaThumbEls = document.querySelectorAll('.villa-thumb');
+  const VILLA_TOTAL = villaSlides.length;
+
+  function villaGoTo(n) {
+    villaCur = (n + VILLA_TOTAL) % VILLA_TOTAL;
+    if (villaTrack) villaTrack.style.transform = `translateX(-${villaCur * 100}%)`;
+    villaThumbEls.forEach((t, i) => t.classList.toggle('active', i === villaCur));
+  }
+  function villaMoveBy(dir) { villaGoTo(villaCur + dir); }
+
+  // Villa lightbox
+  let villaLbCur = 0;
+  function villaLightbox(n) {
+    villaLbCur = n;
+    villaLbUpdate();
+    document.getElementById('villaLb').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function villaLbClose(e) {
+    if (e.target === document.getElementById('villaLb') || e.target.classList.contains('villa-lb-close')) {
+      document.getElementById('villaLb').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+  function villaLbMove(dir) {
+    villaLbCur = (villaLbCur + dir + VILLA_TOTAL) % VILLA_TOTAL;
+    villaLbUpdate();
+    villaGoTo(villaLbCur);
+  }
+  function villaLbUpdate() {
+    document.getElementById('villaLbCounter').textContent = `${villaLbCur + 1} / ${VILLA_TOTAL}`;
+    document.getElementById('villaLbImgEl').src = `photos/villa-${villaLbCur + 1}.avif`;
+  }
+  document.addEventListener('keydown', e => {
+    const lb = document.getElementById('villaLb');
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft') villaLbMove(-1);
+    if (e.key === 'ArrowRight') villaLbMove(1);
+    if (e.key === 'Escape') { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  });
+
+  // Vertical carousel
+  let vcur = 0;
+  const vtrack = document.getElementById('vcarouselTrack');
+  const vslides = vtrack ? vtrack.querySelectorAll('.vcarousel-slide') : [];
+  const VTOTAL = vslides.length;
+  function vcarouselGoTo(n) {
+    vcur = (n + VTOTAL) % VTOTAL;
+    if (vtrack) vtrack.style.transform = `translateX(-${vcur * 100}%)`;
+    document.getElementById('vcarouselCounter').textContent = `${vcur + 1} / ${VTOTAL}`;
+  }
+  function vcarouselMove(dir) { vcarouselGoTo(vcur + dir); }
+
+  // Mobile menu
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('burger');
+    menu.classList.toggle('open');
+    burger.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+</script>
+</body>
+</html>
